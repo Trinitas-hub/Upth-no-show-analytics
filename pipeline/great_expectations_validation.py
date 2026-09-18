@@ -4,7 +4,7 @@ import great_expectations as gx
 import pandas as pd
 
 
-DATA_PATH = Path("data/KaggleV2-May-2016.csv")
+DATA_PATH = Path("data/processed_appointments.csv")
 
 
 def load_data():
