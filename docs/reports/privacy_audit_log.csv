@@ -1,0 +1,5 @@
+timestamp_utc,action,dataset,details
+2026-09-18T10:15:17.192028+00:00,Dataset accessed,processed_appointments.csv,Processed appointment dataset accessed for privacy preparation.
+2026-09-18T10:15:17.192185+00:00,Direct identifiers removed,processed_appointments.csv,PatientId and AppointmentID removed before analytical use.
+2026-09-18T10:15:17.192256+00:00,Anonymized output created,anonymized_appointments.csv,Privacy-prepared dataset created with direct identifiers removed.
+2026-09-18T10:15:17.192307+00:00,Access restriction documented,anonymized_appointments.csv,Analytical dataset intended for authorized project use only.
