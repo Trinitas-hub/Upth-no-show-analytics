@@ -8,3 +8,6 @@ fairlearn
 psycopg2-binary
 fastapi
 uvicorn
+prefect
+great-expectations
+pytest
