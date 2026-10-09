@@ -11,3 +11,4 @@ uvicorn
 prefect
 great-expectations
 pytest
+streamlit
