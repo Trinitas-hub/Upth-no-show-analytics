@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 
@@ -35,22 +34,13 @@ st.header("Project Overview")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.metric(
-        label="Validated Appointments",
-        value="110,521"
-    )
+    st.metric("Validated Appointments", "110,521")
 
 with col2:
-    st.metric(
-        label="No-Show Appointments",
-        value="22,314"
-    )
+    st.metric("No-Show Appointments", "22,314")
 
 with col3:
-    st.metric(
-        label="No-Show Rate",
-        value="20.19%"
-    )
+    st.metric("No-Show Rate", "20.19%")
 
 st.divider()
 
@@ -79,66 +69,85 @@ with m5:
 st.write(
     "The tuned Random Forest identifies many actual no-shows, reflected "
     "in its 68.92% recall. However, the lower precision of 33.21% means "
-    "that some patients who would attend may also be flagged as possible "
-    "no-shows."
+    "that some patients who would attend may also be flagged as possible no-shows."
 )
 
 st.divider()
 
 # --------------------------------------------------
-# EXAMPLE PREDICTIONS
+# INTERACTIVE INDIVIDUAL PREDICTIONS
 # --------------------------------------------------
-st.header("Understanding Individual Predictions")
+st.header("Explore Individual Predictions")
 
 st.write(
-    "The following examples demonstrate how predicted no-show risk "
-    "can vary across individual appointments."
+    "Select one of the verified appointment examples to see how the "
+    "model's predicted risk compares with the actual outcome."
 )
 
-example1, example2, example3 = st.columns(3)
+prediction_examples = {
+    "Example 1 — Borderline Case": {
+        "actual": "No-Show",
+        "predicted": "Attend",
+        "probability": 48.53,
+        "interpretation": (
+            "The predicted no-show probability was just below the 50% "
+            "classification threshold. The model therefore predicted Attend, "
+            "although the patient actually missed the appointment. "
+            "This is a false-negative example."
+        )
+    },
+    "Example 2 — Lower-Risk Case": {
+        "actual": "Attend",
+        "predicted": "Attend",
+        "probability": 11.53,
+        "interpretation": (
+            "The model estimated a relatively low no-show probability "
+            "and correctly classified this appointment as Attend."
+        )
+    },
+    "Example 3 — Higher-Risk Case": {
+        "actual": "No-Show",
+        "predicted": "No-Show",
+        "probability": 71.48,
+        "interpretation": (
+            "The model estimated a higher no-show probability and correctly "
+            "classified this appointment as No-Show."
+        )
+    }
+}
 
-with example1:
-    st.subheader("Example 1 — Borderline Case")
-    st.write("**Actual Outcome:** No-Show")
-    st.write("**Predicted Outcome:** Attend")
+selected_example = st.selectbox(
+    "Choose an appointment example:",
+    list(prediction_examples.keys())
+)
+
+example = prediction_examples[selected_example]
+
+p1, p2, p3 = st.columns(3)
+
+with p1:
+    st.metric("Actual Outcome", example["actual"])
+
+with p2:
+    st.metric("Predicted Outcome", example["predicted"])
+
+with p3:
     st.metric(
-        "No-Show Probability",
-        "48.53%"
-    )
-    st.write(
-        "The probability was just below the 50% classification threshold. "
-        "The model therefore predicted Attend, although the patient "
-        "actually missed the appointment."
+        "Predicted No-Show Probability",
+        f'{example["probability"]:.2f}%'
     )
 
-with example2:
-    st.subheader("Example 2 — Lower-Risk Case")
-    st.write("**Actual Outcome:** Attend")
-    st.write("**Predicted Outcome:** Attend")
-    st.metric(
-        "No-Show Probability",
-        "11.53%"
-    )
-    st.write(
-        "The model estimated a low no-show risk and correctly classified "
-        "this appointment as Attend."
-    )
+st.progress(example["probability"] / 100)
 
-with example3:
-    st.subheader("Example 3 — Higher-Risk Case")
-    st.write("**Actual Outcome:** No-Show")
-    st.write("**Predicted Outcome:** No-Show")
-    st.metric(
-        "No-Show Probability",
-        "71.48%"
-    )
-    st.write(
-        "The model estimated a higher no-show risk and correctly classified "
-        "this appointment as No-Show."
-    )
+st.write("**Business interpretation:**")
+st.write(example["interpretation"])
+
+st.caption(
+    "Classification threshold = 50%. Predicted probabilities represent "
+    "estimated risk, not certainty."
+)
 
 st.warning(
-    "Predicted probabilities represent estimated risk, not certainty. "
     "Individual predictions should support, rather than replace, "
     "staff judgement."
 )
@@ -153,22 +162,13 @@ st.header("What-If Analysis: Appointment Lead Time")
 w1, w2, w3 = st.columns(3)
 
 with w1:
-    st.metric(
-        "0-Day Lead Time",
-        "26.62%"
-    )
+    st.metric("0-Day Lead Time", "26.62%")
 
 with w2:
-    st.metric(
-        "30-Day Lead Time",
-        "54.08%"
-    )
+    st.metric("30-Day Lead Time", "54.08%")
 
 with w3:
-    st.metric(
-        "Classification Threshold",
-        "50%"
-    )
+    st.metric("Classification Threshold", "50%")
 
 st.write(
     "For the selected appointment, the predicted no-show probability "
@@ -184,43 +184,47 @@ st.caption(
 st.divider()
 
 # --------------------------------------------------
-# FAIRNESS ANALYSIS
+# INTERACTIVE FAIRNESS ANALYSIS
 # --------------------------------------------------
-st.header("Fairness Across Age Groups")
+st.header("Explore Fairness Across Age Groups")
 
 fairness_data = pd.DataFrame({
-    "Age Group": [
-        "0–17",
-        "18–34",
-        "35–49",
-        "50–64",
-        "65+"
-    ],
-
-    "Actual No-Show Rate (%)": [
-        21.36,
-        23.65,
-        20.95,
-        17.38,
-        15.46
-    ],
-
-    "Predicted Rate Before Mitigation (%)": [
-        52.90,
-        59.90,
-        50.35,
-        20.31,
-        12.06
-    ],
-
-    "Predicted Rate After Removing Age (%)": [
-        49.06,
-        53.48,
-        49.84,
-        42.05,
-        35.88
-    ]
+    "Age Group": ["0–17", "18–34", "35–49", "50–64", "65+"],
+    "Actual No-Show Rate (%)": [21.36, 23.65, 20.95, 17.38, 15.46],
+    "Predicted Rate Before Mitigation (%)": [52.90, 59.90, 50.35, 20.31, 12.06],
+    "Predicted Rate After Removing Age (%)": [49.06, 53.48, 49.84, 42.05, 35.88]
 })
+
+selected_age = st.selectbox(
+    "Choose an age group:",
+    fairness_data["Age Group"].tolist()
+)
+
+age_result = fairness_data[
+    fairness_data["Age Group"] == selected_age
+].iloc[0]
+
+f1, f2, f3 = st.columns(3)
+
+with f1:
+    st.metric(
+        "Actual No-Show Rate",
+        f'{age_result["Actual No-Show Rate (%)"]:.2f}%'
+    )
+
+with f2:
+    st.metric(
+        "Predicted Before Mitigation",
+        f'{age_result["Predicted Rate Before Mitigation (%)"]:.2f}%'
+    )
+
+with f3:
+    st.metric(
+        "Predicted After Removing Age",
+        f'{age_result["Predicted Rate After Removing Age (%)"]:.2f}%'
+    )
+
+st.subheader("Comparison Across All Age Groups")
 
 st.bar_chart(
     fairness_data.set_index("Age Group")[
@@ -234,23 +238,17 @@ st.bar_chart(
 
 st.write(
     "Predicted no-show rates varied substantially across age groups. "
-    "Removing Age changed these prediction patterns and reduced some "
+    "Removing Age changed the prediction patterns and reduced some "
     "differences, but disparities remained."
 )
 
-f1, f2 = st.columns(2)
+fair1, fair2 = st.columns(2)
 
-with f1:
-    st.metric(
-        "ROC-AUC",
-        "73.83% → 72.61%"
-    )
+with fair1:
+    st.metric("ROC-AUC", "73.83% → 72.61%")
 
-with f2:
-    st.metric(
-        "Recall",
-        "68.92% → 73.36%"
-    )
+with fair2:
+    st.metric("Recall", "68.92% → 73.36%")
 
 st.caption(
     "Removing a protected attribute does not automatically eliminate "
@@ -303,9 +301,6 @@ st.write(
     "be necessary to understand its suitability for the UPTH environment."
 )
 
-# --------------------------------------------------
-# FOOTER
-# --------------------------------------------------
 st.divider()
 
 st.caption(
