@@ -1,0 +1,16 @@
+services:
+  api:
+    build: .
+    container_name: upth-api
+    command: uvicorn BAN6800_Module_4_Trinitas_Iwunze.app:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    container_name: upth-dashboard
+    command: streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=8501
+    ports:
+      - "8501:8501"
+    restart: unless-stopped
