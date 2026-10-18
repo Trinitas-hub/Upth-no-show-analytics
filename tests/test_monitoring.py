@@ -62,4 +62,4 @@ def test_retraining_trigger_no_alert():
         disparate_impact_ratio=0.90,
     )
 
-   assert result["triggered"] is False
+    assert result["triggered"] is False
