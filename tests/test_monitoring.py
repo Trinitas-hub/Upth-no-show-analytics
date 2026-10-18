@@ -52,7 +52,7 @@ def test_retraining_trigger_for_significant_drift():
         disparate_impact_ratio=0.90,
     )
 
-    assert result["review_required"] is True
+    assert result["triggered"] is True
 
 
 def test_retraining_trigger_no_alert():
@@ -62,4 +62,4 @@ def test_retraining_trigger_no_alert():
         disparate_impact_ratio=0.90,
     )
 
-    assert result["review_required"] is False
+   assert result["triggered"] is False
