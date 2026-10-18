@@ -1,2 +1,75 @@
-# Upth-no-show-analytics
-Business analytics project for predicting outpatient appointment no-shows at UPTH.
+# UPTH No-Show Analytics
+
+## Project Overview
+
+This project is an academic healthcare analytics prototype developed to explore the prediction of outpatient appointment no-shows in the context of the University of Port Harcourt Teaching Hospital (UPTH), Rivers State, Nigeria.
+
+The project uses the publicly available Medical Appointment No Shows dataset as a proxy dataset and does not represent a live UPTH production system.
+
+The objective is to demonstrate how machine learning, responsible AI, monitoring, and data visualization can support healthcare decision-making while maintaining human oversight.
+
+## Project Components
+
+The repository includes:
+
+- Data preprocessing and validation
+- Logistic Regression and Random Forest modelling
+- Model performance evaluation
+- Fairness assessment
+- Model explainability
+- Streamlit analytics dashboard
+- Model monitoring dashboard
+- Data drift monitoring using Population Stability Index (PSI)
+- Fairness monitoring
+- Human-reviewed retraining triggers
+- Prediction explanation audit records
+- Automated testing with Pytest
+- Continuous Integration using GitHub Actions
+- Docker and Docker Compose configuration
+- Responsible AI governance documentation
+
+## Repository Structure
+
+- `data/` – project datasets and processed data
+- `notebooks/` – analysis and model development notebooks
+- `pipeline/` – data pipeline and governance components
+- `src/` – supporting project source code
+- `tests/` – automated pipeline and monitoring tests
+- `monitoring/` – drift, fairness, retraining, explanation, and monitoring components
+- `dashboard/` – dashboard-related project files
+- `models/` – model-related files
+- `docs/` – responsible AI and governance documentation
+- `reports/` – project reports
+- `.github/workflows/` – Continuous Integration workflow
+- `Dockerfile` – reproducible container configuration
+- `docker-compose.yml` – configuration for project services
+
+## Responsible AI
+
+The prototype follows a human-in-the-loop approach. Model predictions are intended to support decision-making and must not be used independently to deny healthcare, automatically cancel appointments, or restrict patient access to care.
+
+Monitoring controls are included for model performance, data drift, fairness, and responsible AI risks. Significant alerts are designed to trigger human review rather than automatic model retraining or deployment.
+
+## Monitoring and Governance
+
+The repository includes:
+
+- A Model Monitoring Policy
+- An Algorithmic Impact Assessment
+- An AI Incident Response Plan
+- Data drift monitoring
+- Fairness monitoring
+- Retraining review triggers
+- Explanation audit storage
+
+These components support transparency, accountability, and continuous review of the prototype.
+
+## Testing and Continuous Integration
+
+Automated tests are implemented using Pytest. GitHub Actions runs the test suite when changes are pushed to the repository, helping verify that pipeline and monitoring components continue to function as expected.
+
+## Project Status
+
+Academic prototype developed for the BAN6800 Capstone Project.
+
+The system demonstrates an end-to-end analytics workflow from data preparation and modelling through visualization, monitoring, testing, and responsible AI governance.
