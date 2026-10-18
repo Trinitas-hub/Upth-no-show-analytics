@@ -14,3 +14,11 @@ services:
     ports:
       - "8501:8501"
     restart: unless-stopped
+
+  monitoring:
+    build: .
+    container_name: upth-monitoring
+    command: streamlit run monitoring/monitoring_app.py --server.address=0.0.0.0 --server.port=8502
+    ports:
+      - "8502:8502"
+    restart: unless-stopped
