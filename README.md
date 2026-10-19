@@ -73,3 +73,26 @@ Automated tests are implemented using Pytest. GitHub Actions runs the test suite
 Academic prototype developed for the BAN6800 Capstone Project.
 
 The system demonstrates an end-to-end analytics workflow from data preparation and modelling through visualization, monitoring, testing, and responsible AI governance.
+
+## Prediction API
+
+A FastAPI prediction endpoint is included to demonstrate how the trained Random Forest model can be accessed programmatically.
+
+### Run the API
+
+From the `BAN6800_Module_4_Trinitas_Iwunze` directory:
+
+```bash
+python -m uvicorn app:app --host 127.0.0.1 --port 8000
+```
+
+Interactive API documentation is available at /docs.
+
+The /predict endpoint accepts appointment characteristics and returns:
+- Predicted class
+- Predicted outcome (No-show or Show)
+- No-show probability
+- A responsible-use notice
+The API is intended for planning and reminder-support purposes only. Predictions must not be used to automatically cancel appointments, deny care, or restrict patient access.
+### Model Compatibility
+The serialized Random Forest model requires scikit-learn==1.6.1, which is pinned in requirements.txt for reproducibility.
